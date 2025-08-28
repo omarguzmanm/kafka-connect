@@ -1,24 +1,21 @@
 {
-  "name": "customer-normalized-sink",
+  "name": "customers-normalized-sink",
   "config": {
     "connector.class": "io.debezium.connector.jdbc.JdbcSinkConnector",
     "tasks.max": "1",
-    "topics": "customers_normalized",
+    "topics": "dbserver1.public.customers",
     "connection.url": "jdbc:postgresql://postgres-target:5432/inventory",
     "connection.username": "postgres",
     "connection.password": "postgres",
     "auto.create": "true",
-    "auto.evolve": "true",
-    "insert.mode": "upsert",
-    "primary.key.mode": "record_key",
-    "primary.key.fields": "id",
+    "insert.mode": "insert",
+    "delete.enabled": "false",
     "table.name.format": "customers_normalized",
-    "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
     "value.converter": "org.apache.kafka.connect.json.JsonConverter",
-    "key.converter.schemas.enable": "false",
     "value.converter.schemas.enable": "false",
-    "batch.size": "3000",
-    "max.retries": "10",
-    "retry.backoff.ms": "3000"
+    "transforms": "unwrap",
+    "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+    "transforms.unwrap.drop.tombstones": "true"
   }
 }

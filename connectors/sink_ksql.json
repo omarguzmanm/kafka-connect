@@ -1,0 +1,30 @@
+{
+  "name": "customers-normalized-sink-final",
+  "config": {
+    "connector.class": "io.debezium.connector.jdbc.JdbcSinkConnector",
+    "tasks.max": "1",
+    "topics": "CUSTOMERS_NORMALIZED_FINAL",
+    "connection.url": "jdbc:postgresql://postgres-target:5432/inventory",
+    "connection.username": "postgres",
+    "connection.password": "postgres",
+    "auto.create": "true",
+    "auto.evolve": "true",
+    "insert.mode": "insert",
+    "table.name.format": "customers_normalized",
+    "transforms": "flatten",
+    "transforms.flatten.type": "org.apache.kafka.connect.transforms.Flatten$Value",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false",
+    "batch.size": "1000",
+    "max.retries": "5",
+    "retry.backoff.ms": "1000",
+    "errors.tolerance": "all",
+    "errors.log.enable": "true",
+    "errors.log.include.messages": "true",
+    "errors.deadletterqueue.topic.name": "deadletter-customers-normalized",
+    "errors.deadletterqueue.topic.replication.factor": "1",
+    "quote.sql.identifiers": "always",
+    "dialect.name": "PostgreSqlDatabaseDialect"
+  }
+}
